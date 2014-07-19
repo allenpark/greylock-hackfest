@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Wave</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_wave_main_tabs">WaveMainTabsActivity</string>
-    <string name="title_fragment_wave_subscribed_tab">Subscribed</string>
-
+    <string name="title_fragment_subscribed_tab">Subscribed</string>
+    <string name="title_fragment_hot_tab">Hot</string>
+    <string name="title_fragment_all_tab">All</string>
 </resources>
