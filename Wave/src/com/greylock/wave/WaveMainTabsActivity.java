@@ -136,11 +136,11 @@ public class WaveMainTabsActivity extends Activity implements
 			// below).
 			switch (position) {
 			case 0:
-				return SubscribedTabFragment.newInstance();
+				return SubscribedTabListFragment.newInstance();
 			case 1:
-				return ListsTabFragment.newInstance();
+				return HotAllLTabListFragment.newInstance();
 			case 2:
-				return ListsTabFragment.newInstance();
+				return HotAllLTabListFragment.newInstance();
 			}
 			return null;
 		}

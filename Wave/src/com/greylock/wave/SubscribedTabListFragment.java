@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ListsTabFragment extends ListFragment {
+public class SubscribedTabListFragment extends ListFragment {
 	public static Fragment newInstance() {
-		return new ListsTabFragment();
+		return new SubscribedTabListFragment();
 	}
 }
