@@ -2,17 +2,14 @@ package com.greylock.wave;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 
-public class SendWaveActivity extends Activity {
+public class LocationActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_send_wave);
-	}
-
-	public void sendWave(View view) {
-		//Send the wave stuff
+		setContentView(R.layout.activity_location);
 	}
 }
