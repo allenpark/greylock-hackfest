@@ -37,7 +37,6 @@ public class WaveMainTabsActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		setContentView(R.layout.activity_wave_main_tabs);
 
 		// Set up the action bar.
