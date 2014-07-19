@@ -2,21 +2,20 @@ package com.greylock.wave;
 
 import java.util.Locale;
 
-import android.app.Activity;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.view.Window;
 
 public class WaveMainTabsActivity extends Activity implements
 		ActionBar.TabListener {
@@ -38,11 +37,19 @@ public class WaveMainTabsActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		setContentView(R.layout.activity_wave_main_tabs);
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+		Resources resources = getResources();
+
+		actionBar.setBackgroundDrawable(new ColorDrawable(
+				resources.getColor(R.color.actionbar_background_color)));
+		actionBar.setStackedBackgroundDrawable(new ColorDrawable(
+				resources.getColor(R.color.actionbar_tab_background_color)));
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the activity.
@@ -127,17 +134,21 @@ public class WaveMainTabsActivity extends Activity implements
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a PlaceholderFragment (defined as a static inner class
 			// below).
-			switch(position) {
+			switch (position) {
 			case 0:
-				return SubscribedTabFragment.newInstance();
+				return SubscribedTabListFragment.newInstance();
+			case 1:
+				return HotAllLTabListFragment.newInstance();
+			case 2:
+				return HotAllLTabListFragment.newInstance();
 			}
 			return null;
 		}
 
 		@Override
 		public int getCount() {
-			// Show 1 total pages.
-			return 1;
+			// Show 3 total pages.
+			return 3;
 		}
 
 		@Override
@@ -145,7 +156,15 @@ public class WaveMainTabsActivity extends Activity implements
 			Locale l = Locale.getDefault();
 			switch (position) {
 			case 0:
-				return getString(R.string.title_fragment_wave_subscribed_tab).toUpperCase(l);
+				return getString(R.string.title_fragment_subscribed_tab)
+						.toUpperCase(l);
+			case 1:
+				return getString(R.string.title_fragment_hot_tab)
+						.toUpperCase(l);
+			case 2:
+				return getString(R.string.title_fragment_all_tab)
+						.toUpperCase(l);
+						
 			}
 			return null;
 		}
