@@ -6,6 +6,5 @@
     -->
     <style name="AppBaseTheme" parent="android:Theme.Holo">
         <!-- API 11 theme customizations can go here. -->
-        <item name="android:windowActionBarOverlay">true</item>
     </style>
 </resources>
