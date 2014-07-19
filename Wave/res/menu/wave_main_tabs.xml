@@ -3,9 +3,15 @@
     tools:context="com.greylock.wave.WaveMainTabsActivity" >
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/requestChannel"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:title="@string/request_channel"/>
+    
+    <item
+        android:id="@+id/manageLocation"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/manage_location"/>
 
 </menu>

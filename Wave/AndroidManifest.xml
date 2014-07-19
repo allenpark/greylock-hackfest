@@ -30,20 +30,24 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name=".WaveMainTabsActivity">
+        <activity android:name=".WaveMainTabsActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".SendWaveActivity"
-            android:label="@string/title_activity_send_wave" >
+            android:label="go" >
         </activity>
         <activity
             android:name=".LocationActivity"
-            android:label="@string/title_activity_location" >
+            android:label="go2" >
+        </activity>
+        <activity
+            android:name=".RequestChannelActivity"
+            android:label="@string/title_activity_request_channel" >
         </activity>
     </application>
 

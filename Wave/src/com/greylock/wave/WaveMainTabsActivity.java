@@ -7,8 +7,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -95,7 +95,13 @@ public class WaveMainTabsActivity extends Activity implements
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.requestChannel) {
+			startActivity(new Intent(this, RequestChannelActivity.class));
+			return true;
+		}
+		
+		if (id == R.id.manageLocation) {
+			startActivity(new Intent(this, LocationActivity.class));
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
