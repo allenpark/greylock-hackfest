@@ -29,5 +29,14 @@
         android:textColor="#ffffff" >
     </EditText>
 
+    <ImageButton
+        android:id="@+id/imageButton1"
+        android:onClick="submitChannelRequest"
+        android:layout_width="wrap_content"
+        android:background="@null"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/submit_button" />
 
 </RelativeLayout>
