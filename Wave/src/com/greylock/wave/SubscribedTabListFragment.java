@@ -38,23 +38,18 @@ public class SubscribedTabListFragment extends ListFragment {
 	public static Fragment newInstance() {
 		return new SubscribedTabListFragment();
 	}
+
 	List<String> userAmount;
 	List<String> channelNames;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
-
-		
-
-
-
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
-
+	
 	public void onResume() {
 		super.onResume();
-		
+		setEmptyText("No channels selected!\nSwipe left to pick some!");
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Channel");
 		query.findInBackground(new FindCallback<ParseObject>() {
 			public void done(List<ParseObject> channelList, ParseException e) {
@@ -68,32 +63,37 @@ public class SubscribedTabListFragment extends ListFragment {
 			}
 		});
 
-
-
 	}
 
 	private void buildChannelNames() {
-		ParseInstallation currentInstall = ParseInstallation.getCurrentInstallation();
+		ParseInstallation currentInstall = ParseInstallation
+				.getCurrentInstallation();
 		ParseGeoPoint loc = currentInstall.getParseGeoPoint("currentLocation");
 		userAmount = new ArrayList<String>();
 		channelNames = currentInstall.getList("channels");
-		//channelNames.get(0);
+		// channelNames.get(0);
 		if (channelNames == null) {
 			channelNames = new LinkedList<String>();
 		}
 		HttpGetter get = new HttpGetter();
 		loc.getLatitude();
-		String [] url = new String[channelNames.size()];
+		String[] url = new String[channelNames.size()];
 		for (int i = 0; i < channelNames.size(); i++) {
-			url[i] = "http://wave-greylock.herokuapp.com/api/getNumUsersOnChannelInRadius/"+ channelNames.get(i)+"/"+loc.getLatitude()+"/"+loc.getLongitude()+"/1";
+			url[i] = "http://wave-greylock.herokuapp.com/api/getNumUsersOnChannelInRadius/"
+					+ channelNames.get(i)
+					+ "/"
+					+ loc.getLatitude()
+					+ "/"
+					+ loc.getLongitude() + "/1";
 			Log.d("yo", "url test" + url[i]);
 
 		}
 		get.execute(url);
-		
-		setListAdapter(new SubscribedBaseAdapter(getActivity(), channelNames, userAmount ));
+
+		setListAdapter(new SubscribedBaseAdapter(getActivity(), channelNames,
+				userAmount));
 	}
-	
+
 	private class HttpGetter extends AsyncTask<String, Void, Void> {
 
 		@Override
@@ -101,7 +101,7 @@ public class SubscribedTabListFragment extends ListFragment {
 			// TODO Auto-generated method stub
 			StringBuilder builder = new StringBuilder();
 			HttpClient client = new DefaultHttpClient();
-			for(int i = 0; i<requestString.length; i++) {
+			for (int i = 0; i < requestString.length; i++) {
 				HttpGet httpGet = new HttpGet(requestString[i]);
 				builder = new StringBuilder();
 				try {
@@ -119,12 +119,13 @@ public class SubscribedTabListFragment extends ListFragment {
 						}
 						try {
 							JSONObject json = new JSONObject(builder.toString());
-							userAmount.add(""+json.get("num_users"));
+							userAmount.add("" + json.get("num_users"));
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						Log.v("Getter", "Your data: " + builder.toString()); //response data
+						Log.v("Getter", "Your data: " + builder.toString()); // response
+																				// data
 					} else {
 						Log.e("Getter", "Failed to download file");
 					}
@@ -139,13 +140,11 @@ public class SubscribedTabListFragment extends ListFragment {
 
 		@Override
 		protected void onPostExecute(Void result) {
-			
-			setListAdapter(new SubscribedBaseAdapter(getActivity(), channelNames, userAmount ));
+
+			setListAdapter(new SubscribedBaseAdapter(getActivity(),
+					channelNames, userAmount));
 
 		}
 	}
-
-
-
 
 }
