@@ -136,7 +136,6 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		}
 
 		ParseInstallation.getCurrentInstallation().saveInBackground();
-
 	}
 	@Override
 	public void onResume() {
