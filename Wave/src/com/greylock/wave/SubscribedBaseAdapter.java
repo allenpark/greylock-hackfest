@@ -35,8 +35,7 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 		mUnsubscribeDragDistance = context.getResources().getInteger(
 				R.integer.unsubscribe_drag_distance);
 		channelNames = names;
-		
-		if(channelNames == null) {
+		if (names == null) {
 			channelNames = new LinkedList<String>();
 		}
 	}

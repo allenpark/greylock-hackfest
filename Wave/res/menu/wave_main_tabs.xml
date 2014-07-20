@@ -9,7 +9,7 @@
         android:title="@string/request_channel"/>
     
     <item android:id="@+id/action_write"
-          android:icon="@drawable/pen_icon"
+          android:icon="@drawable/ic_action_edit"
           android:title="write"
           android:showAsAction="ifRoom"  />
     

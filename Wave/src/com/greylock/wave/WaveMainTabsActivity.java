@@ -131,15 +131,11 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 					}
 				}
 			});
-
+			ParseInstallation.getCurrentInstallation().put("user", ParseUser.getCurrentUser());
+			ParseInstallation.getCurrentInstallation().put("currentLocation", ParseUser.getCurrentUser());
 		}
 
-		ParseInstallation.getCurrentInstallation().put("user", ParseUser.getCurrentUser());
-		ParseInstallation.getCurrentInstallation().put("currentLocation", ParseUser.getCurrentUser());
-
 		ParseInstallation.getCurrentInstallation().saveInBackground();
-
-		
 	}
 	@Override
 	public void onResume() {

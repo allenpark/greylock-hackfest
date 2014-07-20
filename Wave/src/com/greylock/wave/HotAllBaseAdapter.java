@@ -39,11 +39,10 @@ public class HotAllBaseAdapter extends BaseAdapter {
 		this.channelNames = channelNames;
 		mSubscriptions = subs;
 		
-		if(this.channelNames == null) {
-			this.channelNames = new LinkedList<String>();
+		if (channelNames == null) {
+			channelNames = new LinkedList<String>();
 		}
-		
-		if(mSubscriptions == null) {
+		if (mSubscriptions == null) {
 			mSubscriptions = new LinkedList<String>();
 		}
 	}

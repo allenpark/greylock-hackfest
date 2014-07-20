@@ -51,7 +51,7 @@ public class SendWaveActivity extends Activity {
 		ParsePush push = new ParsePush();
 		JSONObject data = null;
 		try {
-			data = new JSONObject("{\"action\": \"com.greylock.wave.NEW_WAVE\", \"message\": \"" + message.getText().toString() + "\"}");
+			data = new JSONObject("{\"action\": \"com.greylock.wave.NEW_WAVE\", \"message\": \"" + message.getText().toString() + "\", \"channel\": \"" + channelOptions.getSelectedItem().toString() + "\"}");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
