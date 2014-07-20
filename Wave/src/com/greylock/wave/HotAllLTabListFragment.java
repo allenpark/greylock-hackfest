@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 public class HotAllLTabListFragment extends ListFragment {
@@ -37,6 +39,10 @@ public class HotAllLTabListFragment extends ListFragment {
 				}
 			}
 		});
+		
+		
+		ParseInstallation currentInstall = ParseInstallation.getCurrentInstallation();
+		//Toast.makeText(getActivity().getApplicationContext(), currentInstall.getList("channels"), Toast.LENGTH_SHORT);
 
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}

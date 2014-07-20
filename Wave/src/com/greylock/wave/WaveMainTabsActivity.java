@@ -39,6 +39,7 @@ import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 public class WaveMainTabsActivity extends Activity implements
@@ -70,7 +71,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_wave_main_tabs);
-		
+
 		Parse.initialize(this, "zvIWkpNTutTz3MFfP4sa7WpzjoJ4bbxjRbc62FiW", "UUpCcySOiGgTIpzCvbJBGJenTLMLFUdWXTAWbuRn");
 
 
@@ -119,8 +120,8 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		}
 
 		mLocationClient = new LocationClient(this, this, this);
-		
-		
+
+
 		Intent resultIntent = new Intent(this, WaveFeedActivity.class);
 		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 		// Adds the back stack
@@ -129,28 +130,33 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		stackBuilder.addNextIntent(resultIntent);
 		// Gets a PendingIntent containing the entire back stack
 		PendingIntent resultPendingIntent =
-		        stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+				stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 		builder.setContentIntent(resultPendingIntent);
 		builder.setTicker("HELO");
 		builder.setSmallIcon(R.drawable.ic_launcher);
 		builder.setContentTitle("LOL :)");
 		NotificationManager mNotificationManager =
-		    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mNotificationManager.notify(1, builder.build());
 		Log.i("SAI", "wtf");
 
-		ParseAnonymousUtils.logIn(new LogInCallback() {
-			@Override
-			public void done(ParseUser user, ParseException e) {
-				if (e != null) {
-					Log.d("MyApp", "Anonymous login failed.");
-				} else {
-					Log.d("MyApp", "Anonymous user logged in.");
+		if(ParseUser.getCurrentUser() == null) {
+			ParseAnonymousUtils.logIn(new LogInCallback() {
+				@Override
+				public void done(ParseUser user, ParseException e) {
+					if (e != null) {
+						Log.d("MyApp", "Anonymous login failed.");
+					} else {
+						Log.d("MyApp", "Anonymous user logged in.");
+					}
 				}
-			}
-		});
+			});
 
+		}
+		
+		ParseInstallation.getCurrentInstallation().put("user", ParseUser.getCurrentUser());
+		ParseInstallation.getCurrentInstallation().saveInBackground();
 	}
 
 	@Override

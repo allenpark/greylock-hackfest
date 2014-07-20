@@ -1,6 +1,7 @@
 package com.greylock.wave;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.app.Activity;
@@ -9,10 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 
 public class SendWaveActivity extends Activity {
@@ -38,6 +41,14 @@ public class SendWaveActivity extends Activity {
 	}
 
 	public void sendWave(View view) {
+		LinkedList<String> channels = new LinkedList<String>();
+		channels.add(channelOptions.getSelectedItem().toString());
+		TextView message = (TextView) findViewById(R.id.textView1);
+		 
+		ParsePush push = new ParsePush();
+		push.setChannels(channels); // Notice we use setChannels not setChannel
+		push.setMessage(message.getText().toString());
+		push.sendInBackground();
 
 	}
 	
