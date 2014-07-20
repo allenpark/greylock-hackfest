@@ -71,8 +71,8 @@ public class WaveReceiver extends BroadcastReceiver {
 		);
 		NotificationCompat.Builder mBuilder =
 			    new NotificationCompat.Builder(context)
-			    .setSmallIcon(R.drawable.ic_launcher)
-			    .setContentTitle(channel)
+			    .setSmallIcon(R.drawable.wave_icon)
+			    .setContentTitle("New Wave: " + channel)
 			    .setContentText(String.format("%d new message(s).", arr.length()))
 			    .setContentIntent(resultPendingIntent);
 		NotificationManager mNotifyMgr = 
