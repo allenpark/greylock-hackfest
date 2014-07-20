@@ -35,6 +35,7 @@ import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 import com.parse.PushService;
@@ -140,6 +141,23 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 
 		PushService.setDefaultPushCallback(this, SendWaveActivity.class);
 		ParseInstallation.getCurrentInstallation().saveInBackground();
+	}
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		if(mCurrentLocation != null){
+			updateLocation();
+
+		}
+
+	}
+	private void updateLocation() {
+		ParseGeoPoint point = new ParseGeoPoint(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+		ParseInstallation.getCurrentInstallation().put("currentLocation", point);
+		ParseInstallation.getCurrentInstallation().saveInBackground();
+		Log.d("Location Updates",
+				"location sent to parse.");
 	}
 
 	@Override
@@ -250,7 +268,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 			case 1:
 				return getString(R.string.title_fragment_hot_tab)
 						.toUpperCase(l);
-			
+
 
 			}
 			return null;
@@ -344,34 +362,8 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	public void onConnected(Bundle arg0) {
 		// TODO Auto-generated method stub
 		mCurrentLocation = mLocationClient.getLastLocation();
-
-		if(mCurrentLocation== null)	{
-
-			showSettingsAlert();
-
-			LocationManager manager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-
-			Location location = null;
-
-			List<String> providers = manager.getProviders(true);
-
-			for(String provider : providers){
-
-				location = manager.getLastKnownLocation(provider);
-				//maybe try adding some Criteria here
-
-				if(location != null) 
-					mCurrentLocation = location;
-			}
-			if(mLocationClient.getLastLocation() != null)
-				mCurrentLocation = mLocationClient.getLastLocation();
-
-		}
-		
-		ParseUser user = ParseUser.getCurrentUser();
-
-
-		//Toast.makeText(this, ""+ mCurrentLocation.getLatitude(), Toast.LENGTH_LONG).show();
+		mCurrentLocation = mLocationClient.getLastLocation();
+		updateLocation();
 
 	}
 
