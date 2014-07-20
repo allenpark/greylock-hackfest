@@ -134,7 +134,7 @@ public class HotAllBaseAdapter extends BaseAdapter {
 					v.findViewById(R.id.subscribe).animate().alpha(0).start();
 					v.findViewById(R.id.channelName).animate().alpha(1f).start();
 					v.findViewById(R.id.view2).animate().alpha(0).start();
-					v.findViewById(R.id.imageView1).animate().alpha(0).start();
+					v.findViewById(R.id.imageView1).animate().alpha(1).start();
 					v.findViewById(R.id.textView3).animate().alpha(1).start();
 					if (rotate) v.findViewById(R.id.imageButton1).animate().alpha(1.0f).rotation(0.0f).start();
 					if((mDragStart - event.getX()) / mUnsubscribeDragDistance > 1f) {
@@ -149,6 +149,12 @@ public class HotAllBaseAdapter extends BaseAdapter {
 				case MotionEvent.ACTION_MOVE:
 					if (mDragStart - event.getX() < 0.0) {
 						v.getParent().requestDisallowInterceptTouchEvent(false);
+						v.findViewById(R.id.subscribe).animate().alpha(0).start();
+						v.findViewById(R.id.channelName).animate().alpha(1f).start();
+						v.findViewById(R.id.view2).animate().alpha(0).start();
+						v.findViewById(R.id.imageView1).animate().alpha(1).start();
+						v.findViewById(R.id.textView3).animate().alpha(1).start();
+						if (rotate) v.findViewById(R.id.imageButton1).animate().alpha(1.0f).rotation(0.0f).start();
 					}
 					if ((mDragStart - event.getX())/mUnsubscribeDragDistance > 1.0f) {
 						v.findViewById(R.id.subscribe).setAlpha(1);
@@ -167,7 +173,7 @@ public class HotAllBaseAdapter extends BaseAdapter {
 					v.findViewById(R.id.textView3).setAlpha(1-(mDragStart - event.getX()) / mUnsubscribeDragDistance);
 					if (rotate) {
 						v.findViewById(R.id.imageButton1).setRotation((mDragStart - event.getX()) < 0.0 ? 0.0f : 90.0f*(mDragStart - event.getX()) / mUnsubscribeDragDistance);
-						v.findViewById(R.id.imageButton1).setAlpha((mDragStart - event.getX()) < 0.0 ? 1.0f : 1.0f*(mDragStart - event.getX()) / mUnsubscribeDragDistance);
+						v.findViewById(R.id.imageButton1).setAlpha((mDragStart - event.getX()) < 5.0 ? 1.0f : 1.0f*(mDragStart - event.getX()) / mUnsubscribeDragDistance);
 					}
 				}
 				return true;
