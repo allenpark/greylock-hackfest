@@ -3,6 +3,7 @@ package com.greylock.wave;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +21,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
+import com.parse.PushService;
 
 public class SendWaveActivity extends Activity {
 
@@ -66,12 +68,13 @@ public class SendWaveActivity extends Activity {
 	private void buildChannelNames(List<ParseObject> list)
 	{
 		channelOptions = (Spinner) findViewById(R.id.spinner1);
-
-		for(int i=0; i<list.size(); i++)
-		{
-			channelNames.add(list.get(i).getString("name"));
-		}
+		Set<String> setOfAllSubscriptions = PushService.getSubscriptions(this);
+//		for(int i=0; i<list.size(); i++)
+//		{
+//			channelNames.add(list.get(i).getString("name"));
+//		}
 		
+		channelNames.addAll(setOfAllSubscriptions);
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, channelNames);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

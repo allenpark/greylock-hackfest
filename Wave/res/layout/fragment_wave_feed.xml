@@ -30,6 +30,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="100dp"
         android:text="SNOOZE CHANNEL"
+        android:clickable="true"
+        android:onClick="snoozeChannel"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
@@ -40,6 +42,8 @@
         android:layout_alignBottom="@+id/textView2"
         android:layout_alignRight="@+id/textView1"
         android:text="SNOOZE ALL"
+        android:clickable="true"
+        android:onClick="snoozeAll"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
@@ -50,6 +54,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="114dp"
         android:text="BLOCK USER"
+        android:clickable="true"
+        android:onClick="blockUser"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

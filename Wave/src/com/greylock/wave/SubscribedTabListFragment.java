@@ -91,7 +91,7 @@ public class SubscribedTabListFragment extends ListFragment {
 		}
 		get.execute(url);
 		
-		setListAdapter(new SubscribedBaseAdapter(getActivity(), channelNames, userAmount ));
+		setListAdapter(new SubscribedBaseAdapter(getActivity(), channelNames, userAmount )); }
 	}
 	
 	private class HttpGetter extends AsyncTask<String, Void, Void> {
