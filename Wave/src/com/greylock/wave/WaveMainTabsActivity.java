@@ -368,6 +368,8 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 				mCurrentLocation = mLocationClient.getLastLocation();
 
 		}
+		
+		ParseUser user = ParseUser.getCurrentUser();
 
 
 		//Toast.makeText(this, ""+ mCurrentLocation.getLatitude(), Toast.LENGTH_LONG).show();
