@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="plus_icon_animation_duration">64</integer>
-    <integer name="unsubscribe_drag_distance">250</integer>
+    <integer name="unsubscribe_drag_distance">350</integer>
 </resources>
