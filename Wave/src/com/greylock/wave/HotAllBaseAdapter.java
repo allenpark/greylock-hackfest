@@ -1,5 +1,6 @@
 package com.greylock.wave;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import android.animation.Animator;
@@ -37,6 +38,14 @@ public class HotAllBaseAdapter extends BaseAdapter {
 				R.integer.unsubscribe_drag_distance);
 		this.channelNames = channelNames;
 		mSubscriptions = subs;
+		
+		if(this.channelNames == null) {
+			this.channelNames = new LinkedList<String>();
+		}
+		
+		if(mSubscriptions == null) {
+			mSubscriptions = new LinkedList<String>();
+		}
 	}
 
 	@Override

@@ -29,7 +29,9 @@ public class SubscribedTabListFragment extends ListFragment {
 		super.onResume();
 
 		ParseInstallation currentInstall = ParseInstallation.getCurrentInstallation();
+
 		List<String> channelNames = currentInstall.getList("channels");
+		
 		setListAdapter(new SubscribedBaseAdapter(getActivity(), channelNames));
 
 

@@ -194,7 +194,10 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		}
 
 		if (id == R.id.manageLocation) {
-			startActivity(new Intent(this, LocationActivity.class));
+			Intent i = new Intent(this, LocationActivity.class);
+			i.putExtra("lat", (double) mCurrentLocation.getLatitude());
+			i.putExtra("lon", (double) mCurrentLocation.getLongitude());
+			startActivity(i);
 			return true;
 		}
 
@@ -203,6 +206,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		}
 
 		if (id == R.id.action_write) {
+			
 			startActivity(new Intent(this, SendWaveActivity.class));
 
 		}
