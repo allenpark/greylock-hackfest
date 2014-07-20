@@ -230,8 +230,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 				return SubscribedTabListFragment.newInstance();
 			case 1:
 				return HotAllLTabListFragment.newInstance();
-			case 2:
-				return HotAllLTabListFragment.newInstance();
+
 			}
 			return null;
 		}
@@ -239,7 +238,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		@Override
 		public int getCount() {
 			// Show 3 total pages.
-			return 3;
+			return 2;
 		}
 
 		@Override
@@ -252,9 +251,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 			case 1:
 				return getString(R.string.title_fragment_hot_tab)
 						.toUpperCase(l);
-			case 2:
-				return getString(R.string.title_fragment_all_tab)
-						.toUpperCase(l);
+			
 
 			}
 			return null;

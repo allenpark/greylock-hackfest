@@ -23,16 +23,18 @@ public class HotAllBaseAdapter extends BaseAdapter {
 	private final Context mContext;
 	private List<String> channelNames;
 	private TextView channelName;
+	private List<String> mSubscriptions;
 
 	private float mDragStart;
 
-	public HotAllBaseAdapter(Context context, List<String> channelNames) {
+	public HotAllBaseAdapter(Context context, List<String> channelNames, List<String> subs) {
 		mContext = context;
 		mAnimationDuration = context.getResources().getInteger(
 				R.integer.plus_icon_animation_duration);
 		mUnsubscribeDragDistance = context.getResources().getInteger(
 				R.integer.unsubscribe_drag_distance);
 		this.channelNames = channelNames;
+		mSubscriptions = subs;
 	}
 
 	@Override
@@ -108,6 +110,12 @@ public class HotAllBaseAdapter extends BaseAdapter {
 			}
 			
 		});
+		
+		if(mSubscriptions.contains(channelNames.get(position))) {
+			button.setImageResource(R.drawable.check_icon);
+			button.setClickable(false);
+			button.setFocusable(false);
+		}
 		
 		return convertView;
 	}
