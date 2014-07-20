@@ -4,39 +4,32 @@
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="18dp"
-        android:text="Channel Name"
-        android:textColor="#ffffff" />
-
     <EditText
         android:id="@+id/channelText"
         android:layout_width="fill_parent"
-        android:layout_height="30dp"
-        android:paddingLeft="14dp"
+        android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView1"
+        android:layout_marginTop="30dp"
         android:background="#26000000"
         android:ems="10"
-        android:textColorHint="#ffffff"
         android:hint="Enter Channel"
+        android:paddingBottom="5dp"
+        android:paddingLeft="14dp"
+        android:paddingTop="5dp"
         android:textColor="#ffffff" >
+
+        <requestFocus />
     </EditText>
 
     <ImageButton
         android:id="@+id/imageButton1"
-        android:onClick="submitChannelRequest"
         android:layout_width="wrap_content"
-        android:background="@null"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/submit_button" />
+        android:background="@null"
+        android:onClick="submitChannelRequest"
+        android:src="@drawable/submit_button_selector" />
 
 </RelativeLayout>

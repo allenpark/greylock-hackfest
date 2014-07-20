@@ -63,7 +63,7 @@ public class HotAllBaseAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.wave_list_item, null);
 		}
 
-		channelName = (TextView) convertView.findViewById(R.id.textView1);
+		channelName = (TextView) convertView.findViewById(R.id.channelName);
 		channelName.setText(channelNames.get(position).replaceAll("_", " "));
 		convertView.setClickable(true);
 

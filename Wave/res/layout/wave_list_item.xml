@@ -6,7 +6,7 @@
     android:padding="@dimen/wave_list_item_padding" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/channelName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"

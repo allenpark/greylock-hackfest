@@ -1,5 +1,7 @@
 package com.greylock.wave;
 
+import java.util.List;
+
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.content.Context;
@@ -11,26 +13,31 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class SubscribedBaseAdapter extends BaseAdapter {
 	private final int mAnimationDuration;
 	private final int mUnsubscribeDragDistance;
 	private final Context mContext;
+	private List<String> channelNames;
+	private TextView mChannelName;
+
 
 	private float mDragStart;
 
-	public SubscribedBaseAdapter(Context context) {
+	public SubscribedBaseAdapter(Context context, List<String> names) {
 		mContext = context;
 		mAnimationDuration = context.getResources().getInteger(
 				R.integer.plus_icon_animation_duration);
 		mUnsubscribeDragDistance = context.getResources().getInteger(
 				R.integer.unsubscribe_drag_distance);
+		channelNames = names;
 	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return 3;
+		return channelNames.size();
 	}
 
 	@Override
@@ -54,11 +61,14 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 			LayoutInflater inflater = LayoutInflater.from(mContext);
 			convertView = inflater.inflate(R.layout.wave_list_item, null);
 		}
+		
+		mChannelName = (TextView) convertView.findViewById(R.id.channelName);
+		mChannelName.setText(channelNames.get(position).replaceAll("_", " "));
 
 		convertView.findViewById(R.id.textView3).setVisibility(View.GONE);
 		convertView.findViewById(R.id.imageView1).setVisibility(View.GONE);
 		convertView.findViewById(R.id.imageButton1).setAlpha(0);
-		
+
 		convertView.setClickable(true);
 		convertView.setOnTouchListener(new OnTouchListener() {
 
@@ -98,30 +108,30 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 			@Override
 			public void onClick(final View v) {
 				v.animate().rotationY(90.0f).setDuration(mAnimationDuration)
-						.setListener(new AnimatorListener() {
+				.setListener(new AnimatorListener() {
 
-							@Override
-							public void onAnimationStart(Animator animation) {
-							}
+					@Override
+					public void onAnimationStart(Animator animation) {
+					}
 
-							@Override
-							public void onAnimationRepeat(Animator animation) {
-							}
+					@Override
+					public void onAnimationRepeat(Animator animation) {
+					}
 
-							@Override
-							public void onAnimationEnd(Animator animation) {
-								// TODO Auto-generated method stub
-								((ImageButton) v)
-										.setImageResource(R.drawable.check_icon);
-								v.animate().rotationY(0.0f)
-										.setDuration(mAnimationDuration)
-										.start();
-							}
+					@Override
+					public void onAnimationEnd(Animator animation) {
+						// TODO Auto-generated method stub
+						((ImageButton) v)
+						.setImageResource(R.drawable.check_icon);
+						v.animate().rotationY(0.0f)
+						.setDuration(mAnimationDuration)
+						.start();
+					}
 
-							@Override
-							public void onAnimationCancel(Animator animation) {
-							}
-						}).start();
+					@Override
+					public void onAnimationCancel(Animator animation) {
+					}
+				}).start();
 			}
 		});
 		return convertView;

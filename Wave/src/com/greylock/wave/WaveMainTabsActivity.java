@@ -132,10 +132,12 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 			});
 
 		}
-		
+
 		ParseInstallation.getCurrentInstallation().put("user", ParseUser.getCurrentUser());
+		ParseInstallation.getCurrentInstallation().put("currentLocation", ParseUser.getCurrentUser());
+
 		ParseInstallation.getCurrentInstallation().saveInBackground();
-		
+
 		PushService.setDefaultPushCallback(this, SendWaveActivity.class);
 		ParseInstallation.getCurrentInstallation().saveInBackground();
 	}
@@ -181,6 +183,11 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 
 		if (id == android.R.id.home) {
 			startActivity(new Intent(this, SendWaveActivity.class));
+		}
+
+		if (id == R.id.action_write) {
+			startActivity(new Intent(this, SendWaveActivity.class));
+
 		}
 		return super.onOptionsItemSelected(item);
 	}

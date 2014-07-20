@@ -9,8 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -43,7 +43,7 @@ public class SendWaveActivity extends Activity {
 	public void sendWave(View view) {
 		LinkedList<String> channels = new LinkedList<String>();
 		channels.add(channelOptions.getSelectedItem().toString());
-		TextView message = (TextView) findViewById(R.id.textView1);
+		EditText message = (EditText) findViewById(R.id.editText1);
 		 
 		ParsePush push = new ParsePush();
 		push.setChannels(channels); // Notice we use setChannels not setChannel
