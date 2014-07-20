@@ -24,19 +24,26 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 	private final Context mContext;
 	private List<String> channelNames;
 	private TextView mChannelName;
-
+	private List<String> userAmount;
+	private TextView numUsers;
 
 	private float mDragStart;
 
-	public SubscribedBaseAdapter(Context context, List<String> names) {
+	public SubscribedBaseAdapter(Context context, List<String> names, List<String> userNum) {
 		mContext = context;
 		mAnimationDuration = context.getResources().getInteger(
 				R.integer.plus_icon_animation_duration);
 		mUnsubscribeDragDistance = context.getResources().getInteger(
 				R.integer.unsubscribe_drag_distance);
 		channelNames = names;
+		
+		userAmount = userNum;
 		if (names == null) {
 			channelNames = new LinkedList<String>();
+		}
+		
+		if(userAmount == null) {
+			userAmount = new LinkedList<String>();
 		}
 	}
 
@@ -70,9 +77,13 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 
 		mChannelName = (TextView) convertView.findViewById(R.id.channelName);
 		mChannelName.setText(channelNames.get(position).replaceAll("_", " "));
-
-		convertView.findViewById(R.id.textView3).setVisibility(View.GONE);
-		convertView.findViewById(R.id.imageView1).setVisibility(View.GONE);
+		numUsers = (TextView) convertView.findViewById(R.id.textView3);
+		if(userAmount.size() >0) {
+			numUsers.setText(userAmount.get(position));
+		}
+		
+//		convertView.findViewById(R.id.textView3).setVisibility(View.GONE);
+//		convertView.findViewById(R.id.imageView1).setVisibility(View.GONE);
 		convertView.findViewById(R.id.imageButton1).setAlpha(0);
 
 		convertView.setClickable(true);

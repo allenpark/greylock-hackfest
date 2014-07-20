@@ -1,11 +1,26 @@
 package com.greylock.wave;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,10 +42,12 @@ public class HotAllBaseAdapter extends BaseAdapter {
 	private List<String> channelNames;
 	private TextView channelName;
 	private List<String> mSubscriptions;
+	private List<String> mUsers;
+	private TextView userNumber;
 
 	private float mDragStart;
 
-	public HotAllBaseAdapter(Context context, List<String> channelNames, List<String> subs) {
+	public HotAllBaseAdapter(Context context, List<String> channelNames, List<String> subs, List<String> usersArea) {
 		mContext = context;
 		mAnimationDuration = context.getResources().getInteger(
 				R.integer.plus_icon_animation_duration);
@@ -38,13 +55,21 @@ public class HotAllBaseAdapter extends BaseAdapter {
 				R.integer.unsubscribe_drag_distance);
 		this.channelNames = channelNames;
 		mSubscriptions = subs;
-		
+
+		mUsers = usersArea;
+
 		if (channelNames == null) {
 			channelNames = new LinkedList<String>();
 		}
 		if (mSubscriptions == null) {
 			mSubscriptions = new LinkedList<String>();
 		}
+		if (mUsers == null) {
+			mUsers = new LinkedList<String>();
+		}
+
+		notifyDataSetChanged();
+
 	}
 
 	@Override
@@ -75,6 +100,10 @@ public class HotAllBaseAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.wave_list_item, null);
 		}
 
+		userNumber = (TextView) convertView.findViewById(R.id.textView3);
+		if(mUsers.size()>0){
+			userNumber.setText(mUsers.get(position));
+		}
 		channelName = (TextView) convertView.findViewById(R.id.channelName);
 		channelName.setText(channelNames.get(position).replaceAll("_", " "));
 		convertView.setClickable(true);
@@ -92,7 +121,7 @@ public class HotAllBaseAdapter extends BaseAdapter {
 				case MotionEvent.ACTION_UP:
 					v.findViewById(R.id.view2).animate().alpha(0).start();
 					v.findViewById(R.id.imageButton1).animate().rotation(0.0f).start();
-					
+
 					if((event.getX() - mDragStart) / mUnsubscribeDragDistance > 1f) {
 						PushService.subscribe(mContext, channelNames.get(position).replaceAll(" ", "_"), SendWaveActivity.class);
 						channelNames.remove(position);
@@ -115,7 +144,7 @@ public class HotAllBaseAdapter extends BaseAdapter {
 				return true;
 			}
 		});
-		
+
 		ImageButton button = (ImageButton) convertView
 				.findViewById(R.id.imageButton1);
 		button.setOnClickListener(new OnClickListener() {
@@ -150,21 +179,23 @@ public class HotAllBaseAdapter extends BaseAdapter {
 					public void onAnimationCancel(Animator animation) {
 					}
 				}).start();
-				
+
 
 				PushService.subscribe(mContext, channelNames.get(position).replaceAll(" ", "_"), SendWaveActivity.class);
 				Toast.makeText(mContext, "You subscribed to " + channelNames.get(position), Toast.LENGTH_SHORT).show();
 			}
-			
+
 		});
-		
+
 		if(mSubscriptions.contains(channelNames.get(position))) {
 			button.setImageResource(R.drawable.check_icon);
 			button.setClickable(false);
 			button.setFocusable(false);
 		}
-		
+
 		return convertView;
 	}
+
+
 
 }
