@@ -38,6 +38,7 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.PushService;
 import com.squareup.otto.Bus;
 
 public class WaveMainTabsActivity extends Activity implements

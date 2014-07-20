@@ -35,19 +35,16 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 public class SubscribedTabListFragment extends ListFragment {
+	
+	List<String> userAmount;
+	List<String> channelNames;
 	public static Fragment newInstance() {
 		return new SubscribedTabListFragment();
 	}
-	List<String> userAmount;
-	List<String> channelNames;
+	
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
-
-		
-
-
 
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
@@ -144,8 +141,9 @@ public class SubscribedTabListFragment extends ListFragment {
 
 		}
 	}
+	
+	}
+	
 
 
-
-
-}
+	
