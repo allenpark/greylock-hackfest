@@ -2,6 +2,8 @@ package com.greylock.wave;
 
 import java.util.List;
 
+import com.parse.PushService;
+
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.content.Context;
@@ -53,7 +55,7 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		if (convertView != null) {
 			return convertView;
@@ -61,7 +63,7 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 			LayoutInflater inflater = LayoutInflater.from(mContext);
 			convertView = inflater.inflate(R.layout.wave_list_item, null);
 		}
-		
+
 		mChannelName = (TextView) convertView.findViewById(R.id.channelName);
 		mChannelName.setText(channelNames.get(position).replaceAll("_", " "));
 
@@ -81,20 +83,27 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 					break;
 				case MotionEvent.ACTION_UP:
 					v.findViewById(R.id.textView2).animate().alpha(0).start();
-					v.findViewById(R.id.textView1).animate().alpha(1f).start();
+					v.findViewById(R.id.channelName).animate().alpha(1f).start();
 					v.findViewById(R.id.imageButton1).animate().alpha(0.0f).rotation(0.0f).start();
+					if((event.getX() - mDragStart) / mUnsubscribeDragDistance > 1f) {
+						PushService.unsubscribe(mContext, channelNames.get(position).replaceAll(" ", "_"));
+						channelNames.remove(position);
+						notifyDataSetInvalidated();
+
+						notifyDataSetChanged();
+					}
 					break;
 				case MotionEvent.ACTION_MOVE:
 					if (event.getX() - mDragStart < 5.0) v.getParent().requestDisallowInterceptTouchEvent(false);
 					if ((event.getX() - mDragStart)/mUnsubscribeDragDistance > 1.0f) {
 						v.findViewById(R.id.textView2).setAlpha(1);
-						v.findViewById(R.id.textView1).setAlpha(0);
+						v.findViewById(R.id.channelName).setAlpha(0);
 						v.findViewById(R.id.imageButton1).setRotation(135.0f);
 						v.findViewById(R.id.imageButton1).setAlpha(1);
 						return true;
 					}
 					v.findViewById(R.id.textView2).setAlpha((event.getX() - mDragStart) / mUnsubscribeDragDistance);
-					v.findViewById(R.id.textView1).setAlpha(1-(event.getX() - mDragStart) / mUnsubscribeDragDistance);
+					v.findViewById(R.id.channelName).setAlpha(1-(event.getX() - mDragStart) / mUnsubscribeDragDistance);
 					v.findViewById(R.id.imageButton1).setRotation((event.getX() - mDragStart) < 0.0 ? 0.0f : 135.0f*(event.getX() - mDragStart) / mUnsubscribeDragDistance);
 					v.findViewById(R.id.imageButton1).setAlpha((event.getX() - mDragStart) < 0.0 ? 0.0f : 1.0f*(event.getX() - mDragStart) / mUnsubscribeDragDistance);
 				}
