@@ -6,6 +6,7 @@ import java.util.List;
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.PushService;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 public class HotAllBaseAdapter extends BaseAdapter {
 
@@ -45,7 +48,20 @@ public class HotAllBaseAdapter extends BaseAdapter {
 		if (mSubscriptions == null) {
 			mSubscriptions = new LinkedList<String>();
 		}
+		((WaveMainTabsActivity) context).bus.register(this);
 	}
+	
+	@Subscribe
+	public void newData(Altercation a) {
+		Log.i("Add/removing hot", a.s);
+		if (a.b) {
+			mSubscriptions.add(a.s);
+		} else {
+			mSubscriptions.remove(a.s);
+		}
+		notifyDataSetChanged();
+	}
+
 
 	@Override
 	public int getCount() {
@@ -68,9 +84,7 @@ public class HotAllBaseAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		if (convertView != null) {
-			return convertView;
-		} else {
+		if (convertView == null) {
 			LayoutInflater inflater = LayoutInflater.from(mContext);
 			convertView = inflater.inflate(R.layout.wave_list_item, null);
 		}
@@ -83,13 +97,45 @@ public class HotAllBaseAdapter extends BaseAdapter {
 		convertView.setOnTouchListener(new OnTouchListener() {
 
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
+			public boolean onTouch(final View v, MotionEvent event) {
 				v.getParent().requestDisallowInterceptTouchEvent(true);
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
 					mDragStart = event.getX();
 					break;
 				case MotionEvent.ACTION_UP:
+					if ((mDragStart - event.getX())/mUnsubscribeDragDistance >= 1.0f) {
+						v.findViewById(R.id.view2).animate().alpha(0).start();
+						v.findViewById(R.id.imageButton1).animate().rotation(0.0f).rotationY(90.0f).setListener(new AnimatorListener() {
+
+							@Override
+							public void onAnimationStart(Animator animation) {
+								// TODO Auto-generated method stub
+								
+							}
+
+							@Override
+							public void onAnimationEnd(Animator animation) {
+								// TODO Auto-generated method stub
+								((ImageButton)v.findViewById(R.id.imageButton1)).setImageResource(R.drawable.check_icon);
+								v.animate().rotation(0.0f).rotationY(0.0f).start();
+							}
+
+							@Override
+							public void onAnimationCancel(Animator animation) {
+								// TODO Auto-generated method stub
+								
+							}
+
+							@Override
+							public void onAnimationRepeat(Animator animation) {
+								// TODO Auto-generated method stub
+								
+							}
+							
+						}).start();
+						return true;
+					}
 					v.findViewById(R.id.view2).animate().alpha(0).start();
 					v.findViewById(R.id.imageButton1).animate().rotation(0.0f).start();
 					break;
@@ -145,6 +191,7 @@ public class HotAllBaseAdapter extends BaseAdapter {
 
 				PushService.subscribe(mContext, channelNames.get(position).replaceAll(" ", "_"), SendWaveActivity.class);
 				Toast.makeText(mContext, "You subscribed to " + channelNames.get(position), Toast.LENGTH_SHORT).show();
+				((WaveMainTabsActivity) mContext).bus.post(new Altercation(true, channelNames.get(position)));
 			}
 			
 		});
@@ -153,6 +200,10 @@ public class HotAllBaseAdapter extends BaseAdapter {
 			button.setImageResource(R.drawable.check_icon);
 			button.setClickable(false);
 			button.setFocusable(false);
+		} else {
+			button.setImageResource(R.drawable.plus_icon);
+			button.setClickable(true);
+			button.setFocusable(true);
 		}
 		
 		return convertView;

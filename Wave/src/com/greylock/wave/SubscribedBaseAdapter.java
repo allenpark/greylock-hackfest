@@ -6,6 +6,7 @@ import java.util.List;
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +18,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.parse.PushService;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 public class SubscribedBaseAdapter extends BaseAdapter {
 	private final int mAnimationDuration;
@@ -24,7 +27,6 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 	private final Context mContext;
 	private List<String> channelNames;
 	private TextView mChannelName;
-
 
 	private float mDragStart;
 
@@ -38,6 +40,18 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 		if (names == null) {
 			channelNames = new LinkedList<String>();
 		}
+		((WaveMainTabsActivity) context).bus.register(this);
+	}
+	
+	@Subscribe
+	public void newData(Altercation a) {
+		Log.i("Add/removing sub", a.s);
+		if (a.b) {
+			//channelNames.add(a.s);
+		} else {
+			channelNames.remove(a.s);
+		}
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -61,9 +75,7 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		if (convertView != null) {
-			return convertView;
-		} else {
+		if (convertView == null) {
 			LayoutInflater inflater = LayoutInflater.from(mContext);
 			convertView = inflater.inflate(R.layout.wave_list_item, null);
 		}
@@ -92,10 +104,7 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 					v.findViewById(R.id.imageButton1).animate().alpha(0.0f).rotation(0.0f).start();
 					if((event.getX() - mDragStart) / mUnsubscribeDragDistance > 1f) {
 						PushService.unsubscribe(mContext, channelNames.get(position).replaceAll(" ", "_"));
-						channelNames.remove(position);
-						notifyDataSetInvalidated();
-
-						notifyDataSetChanged();
+						((WaveMainTabsActivity) mContext).bus.post(new Altercation(false, channelNames.get(position)));
 					}
 					break;
 				case MotionEvent.ACTION_MOVE:
