@@ -134,6 +134,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 						ParseInstallation.getCurrentInstallation().put("currentLocation",
 								ParseUser.getCurrentUser());
 						ParseInstallation.getCurrentInstallation().saveInBackground();
+						mViewPager.setCurrentItem(1);
 					}
 				}
 			});
