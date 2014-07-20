@@ -58,7 +58,6 @@ public class SendWaveActivity extends Activity {
 		}
 		push.setChannels(channels); // Notice we use setChannels not setChannel
 		push.setData(data);
-		//push.setMessage(message.getText().toString());
 		push.sendInBackground();
 
 	}

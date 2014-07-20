@@ -6,8 +6,10 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
@@ -69,6 +71,34 @@ public class HotAllBaseAdapter extends BaseAdapter {
 		channelName.setText(channelNames.get(position).replaceAll("_", " "));
 		convertView.setClickable(true);
 
+		convertView.setClickable(true);
+		convertView.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				v.getParent().requestDisallowInterceptTouchEvent(true);
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					mDragStart = event.getX();
+					break;
+				case MotionEvent.ACTION_UP:
+					v.findViewById(R.id.view2).animate().alpha(0).start();
+					v.findViewById(R.id.imageButton1).animate().rotation(0.0f).start();
+					break;
+				case MotionEvent.ACTION_MOVE:
+					if (mDragStart - event.getX() < 5.0) v.getParent().requestDisallowInterceptTouchEvent(false);
+					if ((mDragStart - event.getX())/mUnsubscribeDragDistance > 1.0f) {
+						v.findViewById(R.id.view2).setAlpha(1);
+						v.findViewById(R.id.imageButton1).setRotation(180.0f);
+						return true;
+					}
+					v.findViewById(R.id.view2).setAlpha((mDragStart - event.getX()) / mUnsubscribeDragDistance);
+					v.findViewById(R.id.imageButton1).setRotation((mDragStart - event.getX()) < 0.0 ? 0.0f : 180.0f*(mDragStart - event.getX()) / mUnsubscribeDragDistance);
+				}
+				return true;
+			}
+		});
+		
 		ImageButton button = (ImageButton) convertView
 				.findViewById(R.id.imageButton1);
 		button.setOnClickListener(new OnClickListener() {

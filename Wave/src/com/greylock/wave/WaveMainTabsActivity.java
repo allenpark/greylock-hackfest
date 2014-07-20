@@ -230,7 +230,6 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 				return SubscribedTabListFragment.newInstance();
 			case 1:
 				return HotAllLTabListFragment.newInstance();
-
 			}
 			return null;
 		}
