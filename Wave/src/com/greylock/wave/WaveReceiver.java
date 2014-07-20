@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 public class WaveReceiver extends BroadcastReceiver {
 
@@ -23,6 +24,7 @@ public class WaveReceiver extends BroadcastReceiver {
 		resultIntent.putExtra("data", intent.getExtras().getString("com.parse.Data"));
 		
 		String channel = intent.getExtras().getString("com.parse.Channel");
+		resultIntent.putExtra("channel", channel);
 		JSONObject json = null;
 		String message = null;
 		try {
@@ -32,7 +34,9 @@ public class WaveReceiver extends BroadcastReceiver {
 			e.printStackTrace();
 		}
 		
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		Log.i("WaveReceiver json", json.toString());
+		
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
 		String ar = sharedPreferences.getString(channel, null);
 		JSONArray arr = null;
 		if (ar == null) {
@@ -55,7 +59,7 @@ public class WaveReceiver extends BroadcastReceiver {
 		
 		arr.put(message);
 		sharedPreferences.edit().putString(channel,  arr.toString()).commit();
-
+		resultIntent.setAction(Long.toString(System.currentTimeMillis()));
 		// Because clicking the notification opens a new ("special") activity, there's
 		// no need to create an artificial back stack.
 		PendingIntent resultPendingIntent =
@@ -68,7 +72,7 @@ public class WaveReceiver extends BroadcastReceiver {
 		NotificationCompat.Builder mBuilder =
 			    new NotificationCompat.Builder(context)
 			    .setSmallIcon(R.drawable.ic_launcher)
-			    .setContentTitle("My notification")
+			    .setContentTitle(channel)
 			    .setContentText(String.format("%d new message(s).", arr.length()))
 			    .setContentIntent(resultPendingIntent);
 		NotificationManager mNotifyMgr = 

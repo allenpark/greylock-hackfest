@@ -64,7 +64,8 @@
         </activity>
         <activity
             android:name="com.greylock.wave.WaveFeedActivity"
-            android:theme="@style/WaveFeedTheme" >
+            android:theme="@style/WaveFeedTheme"
+            android:noHistory="true" >
         </activity>
 
         <service android:name="com.parse.PushService" />

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,9 +38,7 @@ public class WaveFeedActivity extends Activity {
 	 */
 	ViewPager mViewPager;
 	
-	private float mDragStart;
-	
-	private static ArrayList<String> messages;
+	private ArrayList<String> messages;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +59,8 @@ public class WaveFeedActivity extends Activity {
 			e.printStackTrace();
 		}
 		
+		Log.i("WaveFeedActivity json", ob.toString());
+		
 		String chan = null;
 		try {
 			chan = ob.getString("channel");
@@ -68,14 +69,18 @@ public class WaveFeedActivity extends Activity {
 			e.printStackTrace();
 		}
 		
-		
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		chan = getIntent().getStringExtra("channel");
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		String ar = sharedPreferences.getString(chan, null);
-		sharedPreferences.edit().putString(chan, null).commit();
+		sharedPreferences.edit().remove(chan).commit();
 	
 		JSONArray jar = null;
 		try {
+			if (ar != null) {
 			jar = new JSONArray(ar);
+			} else {
+				jar = new JSONArray();
+			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -128,7 +133,7 @@ public class WaveFeedActivity extends Activity {
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a PlaceholderFragment (defined as a static inner class
 			// below).
-			return PlaceholderFragment.newInstance(position);
+			return PlaceholderFragment.newInstance(messages.get(position));
 		}
 
 		@Override
@@ -168,10 +173,10 @@ public class WaveFeedActivity extends Activity {
 		/**
 		 * Returns a new instance of this fragment for the given section number.
 		 */
-		public static PlaceholderFragment newInstance(int sectionNumber) {
+		public static PlaceholderFragment newInstance(String sectionNumber) {
 			PlaceholderFragment fragment = new PlaceholderFragment();
 			Bundle args = new Bundle();
-			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+			args.putString(ARG_SECTION_NUMBER, sectionNumber);
 			fragment.setArguments(args);
 			return fragment;
 		}
@@ -184,8 +189,7 @@ public class WaveFeedActivity extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_wave_feed,
 					container, false);
-			int p = getArguments().getInt(ARG_SECTION_NUMBER);
-			((TextView) rootView.findViewById(R.id.textView1)).setText(messages.get(p));
+			((TextView) rootView.findViewById(R.id.textView1)).setText(getArguments().getString(ARG_SECTION_NUMBER));
 			return rootView;
 		}
 	}
