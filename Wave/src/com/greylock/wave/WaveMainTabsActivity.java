@@ -10,6 +10,9 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,13 +24,12 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -109,7 +111,27 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		}
 
 		mLocationClient = new LocationClient(this, this, this);
-
+		
+		
+		
+		Intent resultIntent = new Intent(this, WaveFeedActivity.class);
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+		// Adds the back stack
+		stackBuilder.addParentStack(WaveFeedActivity.class);
+		// Adds the Intent to the top of the stack
+		stackBuilder.addNextIntent(resultIntent);
+		// Gets a PendingIntent containing the entire back stack
+		PendingIntent resultPendingIntent =
+		        stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+		builder.setContentIntent(resultPendingIntent);
+		builder.setTicker("HELO");
+		builder.setSmallIcon(R.drawable.ic_launcher);
+		builder.setContentTitle("LOL :)");
+		NotificationManager mNotificationManager =
+		    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationManager.notify(1, builder.build());
+		Log.i("SAI", "wtf");
 	}
 
 	@Override

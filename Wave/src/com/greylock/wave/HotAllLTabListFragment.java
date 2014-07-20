@@ -14,7 +14,7 @@ public class HotAllLTabListFragment extends ListFragment {
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		setListAdapter(new TestAdapter(getActivity()));
+		setListAdapter(new HotAllBaseAdapter(getActivity()));
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 }

@@ -3,7 +3,6 @@ package com.greylock.wave;
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,17 +12,20 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 
-public class TestAdapter extends BaseAdapter {
+public class HotAllBaseAdapter extends BaseAdapter {
 
 	private final int mAnimationDuration;
+	private final int mUnsubscribeDragDistance;
 	private final Context mContext;
 
 	private float mDragStart;
 
-	public TestAdapter(Context context) {
+	public HotAllBaseAdapter(Context context) {
 		mContext = context;
 		mAnimationDuration = context.getResources().getInteger(
 				R.integer.plus_icon_animation_duration);
+		mUnsubscribeDragDistance = context.getResources().getInteger(
+				R.integer.unsubscribe_drag_distance);
 	}
 
 	@Override
@@ -55,24 +57,7 @@ public class TestAdapter extends BaseAdapter {
 		}
 
 		convertView.setClickable(true);
-		convertView.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				v.getParent().requestDisallowInterceptTouchEvent(true);
-				switch (event.getAction()) {
-				case MotionEvent.ACTION_DOWN:
-					mDragStart = event.getX();
-					break;
-				case MotionEvent.ACTION_UP:
-					v.animate().translationX(0).start();
-					break;
-				case MotionEvent.ACTION_MOVE:
-					v.setTranslationX((int)(event.getX() - mDragStart));
-				}
-				return true;
-			}
-		});
+		
 		ImageButton button = (ImageButton) convertView
 				.findViewById(R.id.imageButton1);
 		button.setOnClickListener(new OnClickListener() {

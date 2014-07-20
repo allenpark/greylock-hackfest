@@ -14,7 +14,7 @@ public class SubscribedTabListFragment extends ListFragment {
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		setListAdapter(new TestAdapter(getActivity()));
+		setListAdapter(new SubscribedBaseAdapter(getActivity()));
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 }

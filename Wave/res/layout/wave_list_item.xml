@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:minHeight="@dimen/wave_list_item_min_height"
     android:padding="@dimen/wave_list_item_padding" >
-    
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -36,4 +36,12 @@
         android:layout_marginRight="@dimen/wave_list_item_num_people_view_margin_right"
         layout="@layout/num_people_view" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Unsubscribe"
+        android:alpha="0"
+        android:textColor="@color/wave_list_item_unsubscribe_color"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 </RelativeLayout>

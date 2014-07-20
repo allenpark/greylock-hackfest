@@ -17,6 +17,7 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
         android:allowBackup="true"
@@ -48,6 +49,9 @@
         <activity
             android:name=".RequestChannelActivity"
             android:label="@string/title_activity_request_channel" >
+        </activity>
+        <activity
+            android:name=".WaveFeedActivity" >
         </activity>
     </application>
 
