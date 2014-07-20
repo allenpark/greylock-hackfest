@@ -120,7 +120,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		mLocationClient = new LocationClient(this, this, this);
 
 
-		if(ParseUser.getCurrentUser() == null) {
+		if (ParseUser.getCurrentUser() == null) {
 			ParseAnonymousUtils.logIn(new LogInCallback() {
 				@Override
 				public void done(ParseUser user, ParseException e) {
@@ -131,16 +131,26 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 					}
 				}
 			});
-			ParseInstallation.getCurrentInstallation().put("user", ParseUser.getCurrentUser());
-			ParseInstallation.getCurrentInstallation().put("currentLocation", ParseUser.getCurrentUser());
+			ParseInstallation.getCurrentInstallation().put("user",
+					ParseUser.getCurrentUser());
+			ParseInstallation.getCurrentInstallation().put("currentLocation",
+					ParseUser.getCurrentUser());
+			ParseInstallation.getCurrentInstallation().saveInBackground();
+
+		} else {
+
+			ParseInstallation.getCurrentInstallation().put("user",
+					ParseUser.getCurrentUser());
+			ParseInstallation.getCurrentInstallation().put("currentLocation",
+					ParseUser.getCurrentUser());
+			ParseInstallation.getCurrentInstallation().saveInBackground();
 		}
 
-		ParseInstallation.getCurrentInstallation().saveInBackground();
 	}
 	@Override
 	public void onResume() {
 		super.onResume();
-		
+
 		if(mCurrentLocation != null){
 			updateLocation();
 
@@ -202,7 +212,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		}
 
 		if (id == R.id.action_write) {
-			
+
 			startActivity(new Intent(this, SendWaveActivity.class));
 
 		}
