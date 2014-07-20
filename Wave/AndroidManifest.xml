@@ -56,7 +56,8 @@
             android:name=".RequestChannelActivity"
             android:label="@string/title_activity_request_channel" >
         </activity>
-        <activity android:name=".WaveFeedActivity" >
+        <activity android:name="com.greylock.wave.WaveFeedActivity"
+            android:theme="@style/WaveFeedTheme">
         </activity>
     </application>
 
