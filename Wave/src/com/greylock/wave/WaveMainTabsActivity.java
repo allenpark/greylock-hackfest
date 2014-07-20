@@ -136,7 +136,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		ParseInstallation.getCurrentInstallation().put("user", ParseUser.getCurrentUser());
 		ParseInstallation.getCurrentInstallation().saveInBackground();
 		
-		PushService.setDefaultPushCallback(this, SendWaveActivity.class);
+		//PushService.setDefaultPushCallback(this, SendWaveActivity.class);
 		ParseInstallation.getCurrentInstallation().saveInBackground();
 	}
 

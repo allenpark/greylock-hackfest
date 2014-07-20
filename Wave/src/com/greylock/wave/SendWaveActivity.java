@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -43,11 +47,19 @@ public class SendWaveActivity extends Activity {
 	public void sendWave(View view) {
 		LinkedList<String> channels = new LinkedList<String>();
 		channels.add(channelOptions.getSelectedItem().toString());
-		TextView message = (TextView) findViewById(R.id.textView1);
+		EditText message = (EditText) findViewById(R.id.editText1);
 		 
 		ParsePush push = new ParsePush();
+		JSONObject data = null;
+		try {
+			data = new JSONObject("{\"action\": \"com.greylock.wave.NEW_WAVE\", \"message\": \"" + message.getText().toString() + "\"}");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		push.setChannels(channels); // Notice we use setChannels not setChannel
-		push.setMessage(message.getText().toString());
+		push.setData(data);
+		//push.setMessage(message.getText().toString());
 		push.sendInBackground();
 
 	}
