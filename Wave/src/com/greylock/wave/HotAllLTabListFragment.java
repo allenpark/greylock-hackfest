@@ -11,4 +11,10 @@ public class HotAllLTabListFragment extends ListFragment {
 	public static Fragment newInstance() {
 		return new HotAllLTabListFragment();
 	}
+	
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		setListAdapter(new TestAdapter(getActivity()));
+		return super.onCreateView(inflater, container, savedInstanceState);
+	}
 }

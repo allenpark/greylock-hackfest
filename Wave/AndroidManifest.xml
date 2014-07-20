@@ -38,12 +38,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SendWaveActivity"
-            android:label="@string/title_activity_send_wave" >
+            android:name=".SendWaveActivity" >
         </activity>
         <activity
-            android:name=".LocationActivity"
-            android:label="@string/title_activity_location" >
+            android:name=".LocationActivity" >
         </activity>
     </application>
 
