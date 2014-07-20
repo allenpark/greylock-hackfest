@@ -51,8 +51,11 @@ public class HotAllLTabListFragment extends ListFragment {
 		for (int i = 0; i < list.size(); i++) {
 			channelNames.add(list.get(i).getString("name"));
 		}
+		
+		ParseInstallation currentInstall = ParseInstallation.getCurrentInstallation();
+		List<String> subs = currentInstall.getList("channels");
 
-		setListAdapter(new HotAllBaseAdapter(getActivity(), channelNames));
+		setListAdapter(new HotAllBaseAdapter(getActivity(), channelNames, subs));
 
 	}
 }

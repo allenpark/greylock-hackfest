@@ -250,9 +250,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 			case 1:
 				return getString(R.string.title_fragment_hot_tab)
 						.toUpperCase(l);
-			case 2:
-				return getString(R.string.title_fragment_all_tab)
-						.toUpperCase(l);
+			
 
 			}
 			return null;
