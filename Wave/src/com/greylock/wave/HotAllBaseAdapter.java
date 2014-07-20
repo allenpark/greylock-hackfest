@@ -92,6 +92,15 @@ public class HotAllBaseAdapter extends BaseAdapter {
 				case MotionEvent.ACTION_UP:
 					v.findViewById(R.id.view2).animate().alpha(0).start();
 					v.findViewById(R.id.imageButton1).animate().rotation(0.0f).start();
+					
+					if((event.getX() - mDragStart) / mUnsubscribeDragDistance > 1f) {
+						PushService.subscribe(mContext, channelNames.get(position).replaceAll(" ", "_"), SendWaveActivity.class);
+						channelNames.remove(position);
+						((ImageButton)v.findViewById(R.id.imageButton1)).setImageResource(R.drawable.check_icon);
+						notifyDataSetInvalidated();
+
+						notifyDataSetChanged();
+					}
 					break;
 				case MotionEvent.ACTION_MOVE:
 					if (mDragStart - event.getX() < 5.0) v.getParent().requestDisallowInterceptTouchEvent(false);

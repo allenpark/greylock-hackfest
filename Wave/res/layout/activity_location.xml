@@ -24,7 +24,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="93dp"
-            android:max="4000"
+            android:max="8000"
             android:maxHeight="5dp"
             android:progress="4"
             android:progressDrawable="@drawable/viewing_radius_progress_bar"
