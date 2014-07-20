@@ -35,6 +35,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
+import com.parse.LogInCallback;
+import com.parse.Parse;
+import com.parse.ParseAnonymousUtils;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 public class WaveMainTabsActivity extends Activity implements
 ActionBar.TabListener, 
@@ -65,6 +70,9 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_wave_main_tabs);
+		
+		Parse.initialize(this, "zvIWkpNTutTz3MFfP4sa7WpzjoJ4bbxjRbc62FiW", "UUpCcySOiGgTIpzCvbJBGJenTLMLFUdWXTAWbuRn");
+
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
@@ -91,12 +99,12 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		// tab. We can also use ActionBar.Tab#select() to do this if we have
 		// a reference to the Tab.
 		mViewPager
-				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-					@Override
-					public void onPageSelected(int position) {
-						actionBar.setSelectedNavigationItem(position);
-					}
-				});
+		.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+			@Override
+			public void onPageSelected(int position) {
+				actionBar.setSelectedNavigationItem(position);
+			}
+		});
 		mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
 		// For each of the sections in the app, add a tab to the action bar.
@@ -111,7 +119,6 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		}
 
 		mLocationClient = new LocationClient(this, this, this);
-		
 		
 		
 		Intent resultIntent = new Intent(this, WaveFeedActivity.class);
@@ -132,6 +139,18 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mNotificationManager.notify(1, builder.build());
 		Log.i("SAI", "wtf");
+
+		ParseAnonymousUtils.logIn(new LogInCallback() {
+			@Override
+			public void done(ParseUser user, ParseException e) {
+				if (e != null) {
+					Log.d("MyApp", "Anonymous login failed.");
+				} else {
+					Log.d("MyApp", "Anonymous user logged in.");
+				}
+			}
+		});
+
 	}
 
 	@Override
@@ -335,11 +354,11 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	public void onConnected(Bundle arg0) {
 		// TODO Auto-generated method stub
 		mCurrentLocation = mLocationClient.getLastLocation();
-		
+
 		if(mCurrentLocation== null)	{
 
 			showSettingsAlert();
-			
+
 			LocationManager manager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
 			Location location = null;
@@ -348,49 +367,49 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 
 			for(String provider : providers){
 
-			location = manager.getLastKnownLocation(provider);
-			//maybe try adding some Criteria here
+				location = manager.getLastKnownLocation(provider);
+				//maybe try adding some Criteria here
 
-			if(location != null) 
-				mCurrentLocation = location;
+				if(location != null) 
+					mCurrentLocation = location;
 			}
 			if(mLocationClient.getLastLocation() != null)
 				mCurrentLocation = mLocationClient.getLastLocation();
 
 		}
-		
-		
+
+
 		//Toast.makeText(this, ""+ mCurrentLocation.getLatitude(), Toast.LENGTH_LONG).show();
 
 	}
-	
+
 	public void showSettingsAlert(){
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(WaveMainTabsActivity.this);
-      
-        // Setting Dialog Title
-        alertDialog.setTitle("GPS is settings");
-  
-        // Setting Dialog Message
-        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
-  
-        // On pressing Settings button
-        alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog,int which) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                WaveMainTabsActivity.this.startActivity(intent);
-            }
-        });
-  
-        // on pressing cancel button
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-            dialog.cancel();
-            }
-        });
-  
-        // Showing Alert Message
-        alertDialog.show();
-    }
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(WaveMainTabsActivity.this);
+
+		// Setting Dialog Title
+		alertDialog.setTitle("GPS is settings");
+
+		// Setting Dialog Message
+		alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
+
+		// On pressing Settings button
+		alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int which) {
+				Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				WaveMainTabsActivity.this.startActivity(intent);
+			}
+		});
+
+		// on pressing cancel button
+		alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+
+		// Showing Alert Message
+		alertDialog.show();
+	}
 
 	@Override
 	public void onDisconnected() {
