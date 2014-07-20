@@ -1,47 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/wave_list_item_min_height"
-    android:padding="@dimen/wave_list_item_padding" >
+    android:minHeight="@dimen/wave_list_item_min_height" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/include1"
-        android:text="Sample"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <ImageButton
-        android:id="@+id/imageButton1"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/wave_list_item_plus_margin_right"
-        android:padding="@dimen/wave_list_item_plus_padding"
-       	android:background="@null"
-        android:src="@drawable/plus_icon" />
-
-    <include
-        android:id="@+id/include1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/wave_list_item_num_people_view_margin_right"
-        layout="@layout/num_people_view" />
-
-    <TextView
-        android:id="@+id/textView2"
+    <View
+        android:id="@+id/view1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Unsubscribe"
         android:alpha="0"
-        android:textColor="@color/wave_list_item_unsubscribe_color"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-</RelativeLayout>
+        android:background="#80ff0000" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="#8000ff00" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/wave_list_item_padding" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/include1"
+            android:text="Sample"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <ImageButton
+            android:id="@+id/imageButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/wave_list_item_plus_margin_right"
+            android:background="@null"
+            android:padding="@dimen/wave_list_item_plus_padding"
+            android:src="@drawable/plus_icon" />
+
+        <include
+            android:id="@+id/include1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/wave_list_item_num_people_view_margin_right"
+            layout="@layout/num_people_view" />
+
+        <TextView
+            android:id="@+id/unsubscribe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:text="Unsubscribe"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/wave_list_item_unsubscribe_color" />
+
+        <TextView
+            android:id="@+id/subscribe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:text="Unsubscribe"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/wave_list_item_unsubscribe_color" />
+    </RelativeLayout>
+
+</FrameLayout>

@@ -70,20 +70,23 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 					mDragStart = event.getX();
 					break;
 				case MotionEvent.ACTION_UP:
-					v.findViewById(R.id.textView2).animate().alpha(0).start();
+					v.findViewById(R.id.unsubscribe).animate().alpha(0).start();
 					v.findViewById(R.id.textView1).animate().alpha(1f).start();
+					v.findViewById(R.id.view1).animate().alpha(0).start();
 					v.findViewById(R.id.imageButton1).animate().alpha(0.0f).rotation(0.0f).start();
 					break;
 				case MotionEvent.ACTION_MOVE:
 					if (event.getX() - mDragStart < 5.0) v.getParent().requestDisallowInterceptTouchEvent(false);
 					if ((event.getX() - mDragStart)/mUnsubscribeDragDistance > 1.0f) {
-						v.findViewById(R.id.textView2).setAlpha(1);
+						v.findViewById(R.id.unsubscribe).setAlpha(1);
 						v.findViewById(R.id.textView1).setAlpha(0);
+						v.findViewById(R.id.view1).setAlpha(1);
 						v.findViewById(R.id.imageButton1).setRotation(135.0f);
 						v.findViewById(R.id.imageButton1).setAlpha(1);
 						return true;
 					}
-					v.findViewById(R.id.textView2).setAlpha((event.getX() - mDragStart) / mUnsubscribeDragDistance);
+					v.findViewById(R.id.unsubscribe).setAlpha((event.getX() - mDragStart) / mUnsubscribeDragDistance);
+					v.findViewById(R.id.view1).setAlpha((event.getX() - mDragStart) / mUnsubscribeDragDistance);
 					v.findViewById(R.id.textView1).setAlpha(1-(event.getX() - mDragStart) / mUnsubscribeDragDistance);
 					v.findViewById(R.id.imageButton1).setRotation((event.getX() - mDragStart) < 0.0 ? 0.0f : 135.0f*(event.getX() - mDragStart) / mUnsubscribeDragDistance);
 					v.findViewById(R.id.imageButton1).setAlpha((event.getX() - mDragStart) < 0.0 ? 0.0f : 1.0f*(event.getX() - mDragStart) / mUnsubscribeDragDistance);
