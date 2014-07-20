@@ -2,6 +2,8 @@ package com.greylock.wave;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -119,27 +121,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		}
 
 		mLocationClient = new LocationClient(this, this, this);
-		
-		
-		Intent resultIntent = new Intent(this, WaveFeedActivity.class);
-		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-		// Adds the back stack
-		stackBuilder.addParentStack(WaveFeedActivity.class);
-		// Adds the Intent to the top of the stack
-		stackBuilder.addNextIntent(resultIntent);
-		// Gets a PendingIntent containing the entire back stack
-		PendingIntent resultPendingIntent =
-		        stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-		builder.setContentIntent(resultPendingIntent);
-		builder.setTicker("HELO");
-		builder.setSmallIcon(R.drawable.ic_launcher);
-		builder.setContentTitle("LOL :)");
-		NotificationManager mNotificationManager =
-		    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		mNotificationManager.notify(1, builder.build());
-		Log.i("SAI", "wtf");
-
+		startActivity(new Intent(this, WaveFeedActivity.class));
 		ParseAnonymousUtils.logIn(new LogInCallback() {
 			@Override
 			public void done(ParseUser user, ParseException e) {
