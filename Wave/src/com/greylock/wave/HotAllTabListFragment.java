@@ -34,9 +34,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 
-public class HotAllLTabListFragment extends ListFragment {
+public class HotAllTabListFragment extends ListFragment {
 	public static Fragment newInstance() {
-		return new HotAllLTabListFragment();
+		return new HotAllTabListFragment();
 	}
 
 

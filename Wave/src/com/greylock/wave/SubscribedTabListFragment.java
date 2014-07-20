@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -76,7 +77,10 @@ public class SubscribedTabListFragment extends ListFragment {
 		ParseGeoPoint loc = currentInstall.getParseGeoPoint("currentLocation");
 		userAmount = new ArrayList<String>();
 		channelNames = currentInstall.getList("channels");
-		if(channelNames != null) {
+		//channelNames.get(0);
+		if (channelNames == null) {
+			channelNames = new LinkedList<String>();
+		}
 		HttpGetter get = new HttpGetter();
 		loc.getLatitude();
 		String [] url = new String[channelNames.size()];

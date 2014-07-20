@@ -38,7 +38,7 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
-import com.parse.PushService;
+import com.squareup.otto.Bus;
 
 public class WaveMainTabsActivity extends Activity implements
 ActionBar.TabListener, 
@@ -63,7 +63,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	LocationClient mLocationClient;
 	GPSTracker gps;
 
-
+	Bus bus;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +72,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 
 		Parse.initialize(this, "zvIWkpNTutTz3MFfP4sa7WpzjoJ4bbxjRbc62FiW", "UUpCcySOiGgTIpzCvbJBGJenTLMLFUdWXTAWbuRn");
 
-
+		bus = new Bus();
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -268,7 +268,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 			case 0:
 				return SubscribedTabListFragment.newInstance();
 			case 1:
-				return HotAllLTabListFragment.newInstance();
+				return HotAllTabListFragment.newInstance();
 			}
 			return null;
 		}
