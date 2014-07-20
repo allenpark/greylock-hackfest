@@ -128,14 +128,15 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 						Log.d("MyApp", "Anonymous login failed.");
 					} else {
 						Log.d("MyApp", "Anonymous user logged in.");
+						ParseInstallation.getCurrentInstallation().put("user",
+								ParseUser.getCurrentUser());
+						ParseInstallation.getCurrentInstallation().put("currentLocation",
+								ParseUser.getCurrentUser());
+						ParseInstallation.getCurrentInstallation().saveInBackground();
 					}
 				}
 			});
-			ParseInstallation.getCurrentInstallation().put("user",
-					ParseUser.getCurrentUser());
-			ParseInstallation.getCurrentInstallation().put("currentLocation",
-					ParseUser.getCurrentUser());
-			ParseInstallation.getCurrentInstallation().saveInBackground();
+		
 
 		} else {
 
