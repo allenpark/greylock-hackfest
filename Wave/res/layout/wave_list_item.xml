@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0"
-            android:text="Unsubscribe"
+            android:text="Subscribe"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/wave_list_item_unsubscribe_color" />
     </RelativeLayout>

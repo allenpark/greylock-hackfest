@@ -1,5 +1,6 @@
 package com.greylock.wave;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,10 +28,13 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 	private final Context mContext;
 	private List<String> channelNames;
 	private TextView mChannelName;
+	private List<String> userAmount;
+	private TextView numUsers;
+	private HashMap<String, String> userAmount2;
 
 	private float mDragStart;
 
-	public SubscribedBaseAdapter(Context context, List<String> names) {
+	public SubscribedBaseAdapter(Context context, List<String> names, List<String> userNum) {
 		mContext = context;
 		mAnimationDuration = context.getResources().getInteger(
 				R.integer.plus_icon_animation_duration);
@@ -40,6 +44,17 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 		if (names == null) {
 			channelNames = new LinkedList<String>();
 		}
+		/*userAmount2 = new HashMap<String, String>();
+
+		userAmount = userNum;
+		
+		if(userAmount != null) {
+			for (int i = 0; i < userNum.size(); i++) {
+				userAmount2.put(channelNames.get(i), userAmount.get(i));
+			}
+		} else {
+			userAmount = new LinkedList<String>();
+		}*/
 		((WaveMainTabsActivity) context).bus.register(this);
 	}
 	
@@ -47,7 +62,9 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 	public void newData(Altercation a) {
 		Log.i("Add/removing sub", a.s);
 		if (a.b) {
-			//channelNames.add(a.s);
+			if(!channelNames.contains(a.s))
+				channelNames.add(a.s);
+			//userAmount2.put(a.s, a.t);
 		} else {
 			channelNames.remove(a.s);
 		}
@@ -57,6 +74,7 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
+		Log.i("SAI", channelNames.size() + "a");
 		return channelNames.size();
 	}
 
@@ -82,7 +100,11 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 
 		mChannelName = (TextView) convertView.findViewById(R.id.channelName);
 		mChannelName.setText(channelNames.get(position).replaceAll("_", " "));
-
+		/*numUsers = (TextView) convertView.findViewById(R.id.textView3);
+		if(userAmount.size() >0) {
+			numUsers.setText(userAmount2.get(channelNames.get(position).replaceAll("_", " ")));
+		}*/
+		
 		convertView.findViewById(R.id.textView3).setVisibility(View.GONE);
 		convertView.findViewById(R.id.imageView1).setVisibility(View.GONE);
 		convertView.findViewById(R.id.imageButton1).setAlpha(0);
@@ -98,13 +120,14 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 					mDragStart = event.getX();
 					break;
 				case MotionEvent.ACTION_UP:
+					v.getParent().requestDisallowInterceptTouchEvent(false);
 					v.findViewById(R.id.unsubscribe).animate().alpha(0).start();
 					v.findViewById(R.id.channelName).animate().alpha(1f).start();
 					v.findViewById(R.id.view1).animate().alpha(0).start();
 					v.findViewById(R.id.imageButton1).animate().alpha(0.0f).rotation(0.0f).start();
 					if((event.getX() - mDragStart) / mUnsubscribeDragDistance > 1f) {
 						PushService.unsubscribe(mContext, channelNames.get(position).replaceAll(" ", "_"));
-						((WaveMainTabsActivity) mContext).bus.post(new Altercation(false, channelNames.get(position)));
+						((WaveMainTabsActivity) mContext).bus.post(new Altercation(false, channelNames.get(position).replaceAll(" ", "_"), null));
 					}
 					break;
 				case MotionEvent.ACTION_MOVE:

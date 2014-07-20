@@ -8,10 +8,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -80,6 +81,17 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		centerMapOnMyLocation();
+        map.getUiSettings().setZoomControlsEnabled(false);
+
+		// Get the button view 
+	    View locationButton = ((View) findViewById(1).getParent()).findViewById(2);
+
+	    // and next place it, for exemple, on bottom right (as Google Maps app)
+	    RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+	    // position on right bottom
+	    rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+	    rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+	    rlp.setMargins(0, 0, 30, 30);
 
 		final SeekBar sk=(SeekBar) findViewById(R.id.seekBar1);     
 		sk.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {       
@@ -96,10 +108,17 @@ GooglePlayServicesClient.OnConnectionFailedListener{
 
 			@Override       
 			public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {     
-				// TODO Auto-generated method stub      
-
+				// TODO Auto-generated method stub   
+				int min = 1000;
+				if(progress < min) {
+					progressLoc = min;
+					updateCircle(new LatLng(lat, lon), min);
+				}
+						
+				else{
 				progressLoc = progress;
 				updateCircle(new LatLng(lat, lon), progress);
+				}
 			}       
 		});  
 		
