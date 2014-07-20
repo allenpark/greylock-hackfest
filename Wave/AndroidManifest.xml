@@ -19,6 +19,12 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
+    <permission
+        android:name="com.greylock.wave.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.greylock.wave.permission.C2D_MESSAGE" />
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -56,9 +62,30 @@
             android:name=".RequestChannelActivity"
             android:label="@string/title_activity_request_channel" >
         </activity>
-        <activity android:name="com.greylock.wave.WaveFeedActivity"
-            android:theme="@style/WaveFeedTheme">
+        <activity
+            android:name="com.greylock.wave.WaveFeedActivity"
+            android:theme="@style/WaveFeedTheme" >
         </activity>
+
+        <service android:name="com.parse.PushService" />
+
+        <receiver android:name="com.parse.ParseBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <!-- IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
+                <category android:name="com.greylock.wave" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

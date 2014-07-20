@@ -2,8 +2,6 @@ package com.greylock.wave;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -12,9 +10,6 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,7 +21,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
@@ -43,6 +37,7 @@ import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.PushService;
 
 public class WaveMainTabsActivity extends Activity implements
 ActionBar.TabListener, 
@@ -139,6 +134,9 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		}
 		
 		ParseInstallation.getCurrentInstallation().put("user", ParseUser.getCurrentUser());
+		ParseInstallation.getCurrentInstallation().saveInBackground();
+		
+		PushService.setDefaultPushCallback(this, SendWaveActivity.class);
 		ParseInstallation.getCurrentInstallation().saveInBackground();
 	}
 
