@@ -131,16 +131,12 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 					}
 				}
 			});
-
+			ParseInstallation.getCurrentInstallation().put("user", ParseUser.getCurrentUser());
+			ParseInstallation.getCurrentInstallation().put("currentLocation", ParseUser.getCurrentUser());
 		}
 
-		ParseInstallation.getCurrentInstallation().put("user", ParseUser.getCurrentUser());
-		ParseInstallation.getCurrentInstallation().put("currentLocation", ParseUser.getCurrentUser());
-
 		ParseInstallation.getCurrentInstallation().saveInBackground();
 
-		PushService.setDefaultPushCallback(this, SendWaveActivity.class);
-		ParseInstallation.getCurrentInstallation().saveInBackground();
 	}
 	@Override
 	public void onResume() {

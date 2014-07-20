@@ -1,8 +1,7 @@
 package com.greylock.wave;
 
+import java.util.LinkedList;
 import java.util.List;
-
-import com.parse.PushService;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
@@ -16,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.parse.PushService;
 
 public class SubscribedBaseAdapter extends BaseAdapter {
 	private final int mAnimationDuration;
@@ -34,6 +35,9 @@ public class SubscribedBaseAdapter extends BaseAdapter {
 		mUnsubscribeDragDistance = context.getResources().getInteger(
 				R.integer.unsubscribe_drag_distance);
 		channelNames = names;
+		if (names == null) {
+			channelNames = new LinkedList<String>();
+		}
 	}
 
 	@Override

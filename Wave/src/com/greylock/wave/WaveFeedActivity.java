@@ -1,15 +1,17 @@
 package com.greylock.wave;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -58,11 +60,33 @@ public class WaveFeedActivity extends Activity {
 			e.printStackTrace();
 		}
 		
+		String chan = null;
 		try {
-			messages.add(ob.getString("message"));
+			chan = ob.getString("channel");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+		
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		String ar = sharedPreferences.getString(chan, null);
+		sharedPreferences.edit().putString(chan, null).commit();
+	
+		JSONArray jar = null;
+		try {
+			jar = new JSONArray(ar);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (int i = 0; i < jar.length(); i++) {
+			try {
+				messages.add((String) jar.get(i));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		// Set up the ViewPager with the sections adapter.
