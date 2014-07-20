@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;

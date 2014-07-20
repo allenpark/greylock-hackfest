@@ -41,8 +41,6 @@ public class HotAllLTabListFragment extends ListFragment {
 		});
 		
 		
-		ParseInstallation currentInstall = ParseInstallation.getCurrentInstallation();
-		//Toast.makeText(getActivity().getApplicationContext(), currentInstall.getList("channels"), Toast.LENGTH_SHORT);
 
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}

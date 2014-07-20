@@ -65,7 +65,7 @@ public class HotAllBaseAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.wave_list_item, null);
 		}
 
-		channelName = (TextView) convertView.findViewById(R.id.textView1);
+		channelName = (TextView) convertView.findViewById(R.id.channelName);
 		channelName.setText(channelNames.get(position).replaceAll("_", " "));
 		convertView.setClickable(true);
 
@@ -133,7 +133,7 @@ public class HotAllBaseAdapter extends BaseAdapter {
 				}).start();
 				
 
-				PushService.subscribe(mContext, channelNames.get(position).replaceAll(" ", ""), SendWaveActivity.class);
+				PushService.subscribe(mContext, channelNames.get(position).replaceAll(" ", "_"), SendWaveActivity.class);
 				Toast.makeText(mContext, "You subscribed to " + channelNames.get(position), Toast.LENGTH_SHORT).show();
 			}
 			
