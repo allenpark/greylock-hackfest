@@ -1,6 +1,8 @@
 package com.greylock.wave;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,6 +11,8 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -21,6 +25,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.parse.ParseInstallation;
+import com.parse.PushService;
 
 public class WaveFeedActivity extends Activity {
 
@@ -39,6 +47,7 @@ public class WaveFeedActivity extends Activity {
 	ViewPager mViewPager;
 	
 	private ArrayList<String> messages;
+	String chan;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +70,7 @@ public class WaveFeedActivity extends Activity {
 		
 		Log.i("WaveFeedActivity json", ob.toString());
 		
-		String chan = null;
+		chan = null;
 		try {
 			chan = ob.getString("channel");
 		} catch (JSONException e) {
@@ -97,6 +106,48 @@ public class WaveFeedActivity extends Activity {
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
+	}
+	
+	public void snoozeChannel(View view) {
+		
+		SharedPreferences prefs; 
+	    prefs = PreferenceManager.getDefaultSharedPreferences(this);
+	    SharedPreferences.Editor editor = prefs.edit();
+		editor.putString("singleChannelSnooze", chan);
+		editor.commit();
+
+		PushService.unsubscribe(getApplicationContext(), chan);
+		
+		Toast.makeText(getApplicationContext(), "Channel Snoozed", Toast.LENGTH_SHORT).show();
+		
+	}
+	
+	public void blockUser(View view) {
+		Toast.makeText(getApplicationContext(), "User Blocked", Toast.LENGTH_SHORT).show();
+		startActivity(new Intent(this, SendWaveActivity.class));
+
+	}
+	
+public void snoozeAll(View view) {
+		
+		SharedPreferences prefs; 
+		Context mContext = getApplicationContext();
+	    prefs = PreferenceManager.getDefaultSharedPreferences(this);
+	    SharedPreferences.Editor editor = prefs.edit();
+		ParseInstallation currentInstall = ParseInstallation.getCurrentInstallation();
+		List<String> channelNames = currentInstall.getList("channels");
+		//Set<String> myChannels = new HashSet<String>(channelNames);
+		Set<String> setOfAllSubscriptions = PushService.getSubscriptions(getApplicationContext());		
+		editor.putStringSet("snoozeChannel", setOfAllSubscriptions);
+		editor.commit();
+		
+		for(int i=0; i< channelNames.size(); i++) {
+			PushService.unsubscribe(getApplicationContext(), channelNames.get(i));
+		}
+		
+		Toast.makeText(getApplicationContext(), "Snooze enabled", Toast.LENGTH_SHORT).show();
+		finish();
+		
 	}
 	
 	@Override
@@ -149,7 +200,7 @@ public class WaveFeedActivity extends Activity {
 
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 

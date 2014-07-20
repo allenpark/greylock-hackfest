@@ -1,7 +1,7 @@
 package com.greylock.wave;
 
-import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -10,14 +10,14 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.app.DialogFragment;
@@ -144,6 +144,16 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 			ParseInstallation.getCurrentInstallation().put("currentLocation",
 					ParseUser.getCurrentUser());
 			ParseInstallation.getCurrentInstallation().saveInBackground();
+		}
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		Set<String> channels = prefs.getStringSet("prevChannels", null);
+		if(channels !=null) {
+			String [] channelArray = (String[]) channels.toArray();
+
+			for(int i=0; i<channels.size(); i++) {
+				PushService.subscribe(this,channelArray[i] , SendWaveActivity.class);
+			}
 		}
 
 	}

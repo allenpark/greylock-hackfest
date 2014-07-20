@@ -76,7 +76,7 @@ public class SubscribedTabListFragment extends ListFragment {
 		ParseGeoPoint loc = currentInstall.getParseGeoPoint("currentLocation");
 		userAmount = new ArrayList<String>();
 		channelNames = currentInstall.getList("channels");
-		channelNames.get(0);
+		if(channelNames != null) {
 		HttpGetter get = new HttpGetter();
 		loc.getLatitude();
 		String [] url = new String[channelNames.size()];
@@ -87,7 +87,7 @@ public class SubscribedTabListFragment extends ListFragment {
 		}
 		get.execute(url);
 		
-		setListAdapter(new SubscribedBaseAdapter(getActivity(), channelNames, userAmount ));
+		setListAdapter(new SubscribedBaseAdapter(getActivity(), channelNames, userAmount )); }
 	}
 	
 	private class HttpGetter extends AsyncTask<String, Void, Void> {
